@@ -1,0 +1,18 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Quickmeetjava" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        
+    </style>
+    <color name="startColor">#E0FFFE</color>
+    <color name="centerColor">#C1F5F9</color>
+    <color name="endColor">#A3F5FF</color>
+    <color name="startColorCard">#F6F3C3</color>
+    <color name="centerColorCard">#E8E79F</color>
+    <color name="endColorCard">#FFF3B5</color>
+    <color name="textColor">#000000</color>
+
+
+    <style name="Theme.Quickmeetjava" parent="Base.Theme.Quickmeetjava" />
+</resources>

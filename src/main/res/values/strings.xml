@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">quickmeetjava</string>
+    <string name="profile">Profile</string>
+    <string name="home">Home</string>
+    <string name="message">Message</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_text">Title</string>
+    <string name="no_of_likes"></string>
+    <string name="no_of_comment">Edit</string>
+    <string name="no_of_share">Delete</string>
+    <string name="feed">Feed</string>
+    <string name="addPost_dialog_header">What\'s on your mind?</string>
+    <string name="btnPostAccept">Post</string>
+    <string name="btnUploadImg">Upload Image</string>
+    <string name="profile_gmail">profile@gmail.com</string>
+    <string name="logout">logout</string>
+    <string name="edit">Edit</string>
+    <string name="friend_name">Friend</string>
+    <string name="latest_message">Hello user</string>
+    <string name="searchNotes">Search</string>
+    <string name="favouritesToTop">Pin Favourites to top</string>
+    <string name="searchPost">Search for post</string>
+</resources>

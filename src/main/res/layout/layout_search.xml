@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textDialogHeader"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/black"
+        android:layout_margin="16dp"
+        android:text="@string/addPost_dialog_header"
+        android:textStyle="bold">
+    </TextView>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editTextPost"
+        android:layout_below="@+id/textDialogHeader"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/black"
+        android:layout_margin="16dp">
+
+    </EditText>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnUploadImage"
+        android:layout_below="@+id/editTextPost"
+        android:text="@string/btnUploadImg"
+        android:layout_centerHorizontal="true">
+    </Button>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnAcceptPost"
+        android:layout_below="@+id/btnUploadImage"
+        android:text="@string/btnPostAccept"
+        android:layout_centerHorizontal="true">
+    </Button>
+</RelativeLayout>

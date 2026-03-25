@@ -1,0 +1,16 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Quickmeetjava" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your dark theme here. -->
+        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+    </style>
+    <color name="startColor">#3E3D3E</color>
+    <color name="centerColor">#353030</color>
+    <color name="endColor">#000000</color>
+    <color name="startColorCard">#FFAE5F</color>
+    <color name="centerColorCard">#FF9834</color>
+    <color name="endColorCard">#FF8611</color>
+    <color name="textColor">#FFFFFF</color>
+
+
+</resources>
