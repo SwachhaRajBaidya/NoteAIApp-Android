@@ -43,6 +43,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Base64;
@@ -232,17 +233,31 @@ public class MainActivity extends AppCompatActivity {
             String randomId = cursor.getString(5);
             String title = cursor.getString(6);
 
-
+            MyItem item;
             Uri imageUri;
+            Uri uriPlaceholder = Uri.parse("android.resource://" + MainActivity.this.getPackageName() + "/drawable/" + R.drawable.icon_background);
+
+
             if(imageBitmap != null){
                 imageUri = Uri.parse(imageBitmap);
-                getContentResolver().takePersistableUriPermission(imageUri, (Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION));
+                Log.d("imageUri", imageUri.toString());
+                try {
+                    getContentResolver().takePersistableUriPermission(imageUri,
+                            (Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION));
+                } catch (SecurityException e) {
+                    Log.w("URI_PERMISSION", "Could not take persistable permission", e);
+                }
+//                getContentResolver().takePersistableUriPermission(imageUri, (Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION));
+                if(checkImageFileExists(imageUri)){
+                    item = new MyItem(post_text, imageUri, heart, date, randomId, title);
+                    list.add(item);
+                }
             }else{
                 imageUri = null;
+                item = new MyItem(post_text, imageUri, heart, date, randomId, title);
+                list.add(item);
             }
 
-            MyItem item = new MyItem(post_text, imageUri, heart, date, randomId, title);
-            list.add(item);
         }
     }
 
@@ -258,14 +273,27 @@ public class MainActivity extends AppCompatActivity {
             String title = cursor.getString(6);
 
             Uri imageUri;
+            MyItem item;
+
             if(imageBitmap != null){
                 imageUri = Uri.parse(imageBitmap);
-                getContentResolver().takePersistableUriPermission(imageUri, (Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION));
+                Log.d("imageUri", imageUri.toString());
+                try {
+                    getContentResolver().takePersistableUriPermission(imageUri,
+                            (Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION));
+                } catch (SecurityException e) {
+                    Log.w("URI_PERMISSION", "Could not take persistable permission", e);
+                }
+//                getContentResolver().takePersistableUriPermission(imageUri, (Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION));
+                if(checkImageFileExists(imageUri)){
+                    item = new MyItem(post_text, imageUri, heart, date, randomId, title);
+                    list.add(item);
+                }
             }else{
                 imageUri = null;
+                item = new MyItem(post_text, imageUri, heart, date, randomId, title);
+                list.add(item);
             }
-            MyItem item = new MyItem(post_text, imageUri, heart, date, randomId, title);
-            list.add(item);
 
 //            customAdapter.notifyItemInserted(list.size());
 //
@@ -295,6 +323,80 @@ public class MainActivity extends AppCompatActivity {
 //                MyItem item = new MyItem(post_text, imageUri, heart, date, randomId);
 //                list.add(item);
 //            }
+        }
+    }
+
+    public String getRealPathFromURI(Uri uri) {
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+        String path = null;
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                int index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                path = cursor.getString(index);
+            }
+            cursor.close();
+        }
+        // Fallback for newer Android versions or if path is null
+        if (path == null || path.isEmpty()) {
+            path = uri.getPath();
+        }
+        return path;
+    }
+
+//    public boolean checkImageFileExists(Uri uri) {
+//        boolean exists = false;
+//        InputStream inputStream = null;
+//        try {
+//            inputStream = getContentResolver().openInputStream(uri);
+//            if (inputStream != null) {
+//                exists = true;
+//                inputStream.close(); // Close the stream if successful
+//            }
+//        } catch (Exception e) {
+//            // Exception indicates file not found or access denied
+//            e.printStackTrace();
+//        }
+//        return exists;
+//    }
+
+//    public boolean checkImageFileExists(Uri uri) {
+//        // First, check if the URI exists in the database
+//        Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+//        if (cursor == null || !cursor.moveToFirst()) {
+//            if (cursor != null) cursor.close();
+//            return false; // URI not found in database
+//        }
+//        cursor.close();
+//
+//        // Second, check if we can open a stream to the actual file
+//        try (InputStream inputStream = getContentResolver().openInputStream(uri)) {
+//            return inputStream != null;
+//        } catch (Exception e) {
+//            return false; // File not found or inaccessible
+//        }
+//    }
+
+    public boolean checkImageFileExists(Uri uri) {
+        // Check if the URI exists in the MediaStore database
+        try (Cursor cursor = getContentResolver().query(uri, null, null, null, null)) {
+            if (cursor == null || !cursor.moveToFirst()) {
+                return false;
+            }
+        } catch (Exception e) {
+            return false;
+        }
+
+        // Attempt to open a stream to the file, which is the definitive check
+        try (InputStream inputStream = getContentResolver().openInputStream(uri)) {
+            return inputStream != null;
+        } catch (FileNotFoundException e) {
+            // The file was deleted after the database query, or is otherwise inaccessible
+            return false;
+        } catch (Exception e) {
+            // Handle other potential exceptions (e.g., security)
+            e.printStackTrace();
+            return false;
         }
     }
 }

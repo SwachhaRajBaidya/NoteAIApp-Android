@@ -144,11 +144,11 @@ public class CustomPostAdapter extends RecyclerView.Adapter<CustomPostAdapter.My
 
                 holder.textView.setText(itemList.get(position).getText());
 
-                if(context.getContentResolver().getType(itemList.get(position).getImage()) != null){
+//                if(context.getContentResolver().getType(itemList.get(position).getImage()) != null){
                     holder.imageView.setImageURI(itemList.get(position).getImage());
-                }else{
-                    holder.imageView.setImageResource(R.drawable.ic_launcher_foreground);
-                }
+//                }else{
+//                    holder.imageView.setImageResource(R.drawable.ic_launcher_foreground);
+//                }
 
                 if(itemList.get(position).isHeart() == 1){
                     holder.btnPostLike.setImageResource(R.drawable.heart_on);
@@ -213,7 +213,7 @@ public class CustomPostAdapter extends RecyclerView.Adapter<CustomPostAdapter.My
 
 
     }
-    private boolean checkImageExists(Context context, Uri uri){
+    public boolean checkImageExists(Context context, Uri uri){
         ContentResolver cr = context.getContentResolver();
         String[] projection = {MediaStore.Images.Media.DATA};
         Cursor cursor = cr.query(uri, projection, null, null,null);
