@@ -17,8 +17,20 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editTextPost"
+        android:id="@+id/editTextTitle"
         android:layout_below="@+id/textDialogHeader"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/black"
+        android:layout_margin="16dp"
+        android:hint="@string/hintTitle"
+        android:maxLength="10">
+
+    </EditText>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editTextPost"
+        android:layout_below="@+id/editTextTitle"
         android:layout_centerHorizontal="true"
         android:textColor="@color/black"
         android:layout_margin="16dp">

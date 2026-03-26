@@ -109,10 +109,12 @@ public class HomeFragment extends Fragment {
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
 
-                if(newState == RecyclerView.SCROLL_STATE_DRAGGING || newState == RecyclerView.SCROLL_STATE_SETTLING) {
-                    editTextSearch.setVisibility(View.INVISIBLE);
-                    editTextSearch.setText(null);
-                    adapter.updateList(list);
+                if (editTextSearch.getText().toString().isEmpty()){
+                    if (newState == RecyclerView.SCROLL_STATE_DRAGGING || newState == RecyclerView.SCROLL_STATE_SETTLING) {
+                        editTextSearch.setVisibility(View.INVISIBLE);
+                        editTextSearch.setText(null);
+                        adapter.updateList(list);
+                    }
                 }
             }
         });
@@ -184,7 +186,7 @@ public class HomeFragment extends Fragment {
     void filter(String text){
         List<MyItem> temp = new ArrayList<>();
         for(MyItem d : list){
-            if(d.getText().toLowerCase().contains(text.toLowerCase())){
+            if(d.getHeading().toLowerCase().contains(text.toLowerCase())){
                 temp.add(d);
             }
         }

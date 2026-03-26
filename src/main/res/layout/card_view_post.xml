@@ -23,18 +23,34 @@
              android:layout_width="match_parent"
              android:layout_height="wrap_content">
 
-             <ImageView
-                 android:layout_width="30sp"
-                 android:layout_height="30sp"
-                 android:src="@drawable/account"
-                 android:id="@+id/post_profile">
-             </ImageView>
+            <ImageView
+                android:layout_width="24sp"
+                android:layout_height="24sp"
+                android:src="@drawable/calendar"
+                android:id="@+id/post_profile">
+            </ImageView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/heading"
+                android:layout_gravity="center"
+                android:textSize="20sp"
+                android:id="@+id/post_heading"
+                android:textStyle="bold"
+                android:layout_marginStart="10sp"
+                android:textColor="@color/textColor"
+                >
+            </TextView>
+
+
+
              <TextView
-                 android:layout_width="match_parent"
+                 android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
                  android:text="@string/profile"
                  android:layout_gravity="center"
-                 android:textSize="20sp"
+                 android:textSize="15sp"
                  android:id="@+id/post_username"
                  android:textStyle="bold"
                  android:layout_marginStart="10sp"

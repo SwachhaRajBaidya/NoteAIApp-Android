@@ -40,6 +40,7 @@ public class CustomPostAdapter extends RecyclerView.Adapter<CustomPostAdapter.My
         public ImageButton btnPostLike;
         public ImageView imageView;
         public ImageButton btnDelete;
+        public TextView textViewHeading;
 
         public MyViewHolder(View v) {
             super(v);
@@ -50,6 +51,7 @@ public class CustomPostAdapter extends RecyclerView.Adapter<CustomPostAdapter.My
             btnPostLike = v.findViewById(R.id.btnPostLike);
             btnEdit = v.findViewById(R.id.btnEdit);
             btnDelete = v.findViewById(R.id.btnDelete);
+            textViewHeading = v.findViewById(R.id.post_heading);
         }
     }
 
@@ -75,6 +77,7 @@ public class CustomPostAdapter extends RecyclerView.Adapter<CustomPostAdapter.My
 //            holder.imageView.setImageBitmap(bitmap);
 //        }
 
+        holder.textViewHeading.setText(itemList.get(position).getHeading());
         holder.textViewDate.setText(itemList.get(position).getDate());
         holder.btnPostLike.setOnClickListener(new View.OnClickListener() {
 
@@ -84,14 +87,19 @@ public class CustomPostAdapter extends RecyclerView.Adapter<CustomPostAdapter.My
                 if(positions == RecyclerView.NO_POSITION){
                     return;
                 }
-                if(itemList.get(positions).isHeart() == 1){
-                    itemList.get(positions).setHeart(0);
-                    holder.btnPostLike.setImageResource(R.drawable.heart);
-                    mySqliteHelper.updateHeart(positions + 1, 0);
-                }else{
-                    itemList.get(positions).setHeart(1);
-                    holder.btnPostLike.setImageResource(R.drawable.heart_on);
-                    mySqliteHelper.updateHeart(positions + 1, 1);
+                for(int i = 0; i < itemList.size(); i++) {
+                    String randomId = itemList.get(i).getRandomId();
+                    if (randomId.equals(itemList.get(positions).getRandomId())) {
+                        if (itemList.get(positions).isHeart() == 1) {
+                            itemList.get(positions).setHeart(0);
+                            holder.btnPostLike.setImageResource(R.drawable.heart);
+                            mySqliteHelper.updateHeart(randomId, 0);
+                        } else {
+                            itemList.get(positions).setHeart(1);
+                            holder.btnPostLike.setImageResource(R.drawable.heart_on);
+                            mySqliteHelper.updateHeart(randomId, 1);
+                        }
+                    }
                 }
             }
         });

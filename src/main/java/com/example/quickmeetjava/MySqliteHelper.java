@@ -20,7 +20,7 @@ public class MySqliteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String query = "CREATE TABLE posts(id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, post_text TEXT, image TEXT, heart INTEGER, randomId TEXT)";
+        String query = "CREATE TABLE posts(id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, post_text TEXT, image TEXT, heart INTEGER, randomId TEXT, title TEXT)";
         db.execSQL(query);
     }
 
@@ -29,7 +29,7 @@ public class MySqliteHelper extends SQLiteOpenHelper {
         String upgradeQuery = "DROP TABLE IF EXISTS posts";
         db.execSQL(upgradeQuery);
     }
-    public void insertPost(String date, String post_text, String image, int heart, String randomId){
+    public void insertPost(String date, String post_text, String image, int heart, String randomId, String title){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("date", date);
@@ -37,7 +37,7 @@ public class MySqliteHelper extends SQLiteOpenHelper {
         contentValues.put("image",image);
         contentValues.put("heart",heart);
         contentValues.put("randomId",randomId);
-
+        contentValues.put("title",title);
 
         sqLiteDatabase.insert("posts",null,contentValues);
     }
@@ -45,6 +45,14 @@ public class MySqliteHelper extends SQLiteOpenHelper {
     public Cursor selectPost(){
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
         String selectQuery = "SELECT * FROM posts";
+        Cursor cursor = sqLiteDatabase.rawQuery(selectQuery, null);
+
+        return cursor;
+    }
+
+    public Cursor selectPostFavourite(){
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+        String selectQuery = "SELECT * FROM posts WHERE heart = 1";
         Cursor cursor = sqLiteDatabase.rawQuery(selectQuery, null);
 
         return cursor;
@@ -65,7 +73,7 @@ public class MySqliteHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public void updatePost(int id,String date, String post_text, String image, int heart, String randomId){
+    public void updatePost(int id,String date, String post_text, String image, int heart, String randomId, String title){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("date", date);
@@ -73,16 +81,17 @@ public class MySqliteHelper extends SQLiteOpenHelper {
         contentValues.put("image", image);
         contentValues.put("heart", heart);
         contentValues.put("randomId", randomId);
+        contentValues.put("title", title);
 
         sqLiteDatabase.update("posts", contentValues, "id=?", new String[]{String.valueOf(id)});
     }
 
-    public void updateHeart(int id, int heart){
+    public void updateHeart(String randomId, int heart){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("heart", heart);
 
-        sqLiteDatabase.update("posts", contentValues, "id=?", new String[]{String.valueOf(id)});
+        sqLiteDatabase.update("posts", contentValues, "randomId=?", new String[]{String.valueOf(randomId)});
     }
 
     public void updatePost(String randomId, String post_text){

@@ -3,10 +3,15 @@ package com.example.quickmeetjava;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +19,11 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class ProfileFragment extends Fragment {
+    List<MyItem> listFavourite = new ArrayList<>();
+    CustomPostAdapter adapterFavourite;
+    RecyclerView recyclerViewFavourite;
+
+    MySqliteHelper mySqliteHelperFavourite;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -59,6 +69,18 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        mySqliteHelperFavourite = new MySqliteHelper(getContext());
+
+        adapterFavourite = new CustomPostAdapter(listFavourite, this.getContext(), mySqliteHelperFavourite);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        recyclerViewFavourite = (RecyclerView) view.findViewById(R.id.recyclerViewFavouritePosts);
+        recyclerViewFavourite.setLayoutManager(layoutManager);
+        recyclerViewFavourite.setAdapter(adapterFavourite);
+
+
+        return view;
     }
 }

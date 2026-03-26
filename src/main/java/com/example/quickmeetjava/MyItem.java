@@ -13,12 +13,15 @@ public class MyItem {
     private String date;
     private String randomId;
 
-    public MyItem(String text, Uri image, int heart, String date, String randomId) {
+    private String heading;
+
+    public MyItem(String text, Uri image, int heart, String date, String randomId, String heading) {
         this.text = text;
         this.image = image;
         this.heart = heart;
         this.date = date;
         this.randomId = randomId;
+        this.heading = heading;
     }
 
     public MyItem(String text){
@@ -42,4 +45,6 @@ public class MyItem {
     public void setHeart(int heart) { this.heart = heart; }
     public String getRandomId() { return randomId; }
     public void setRandomId(String randomId) { this.randomId = randomId; }
+    public String getHeading() { return heading; }
+    public void setHeading(String heading) { this.heading = heading; }
 }

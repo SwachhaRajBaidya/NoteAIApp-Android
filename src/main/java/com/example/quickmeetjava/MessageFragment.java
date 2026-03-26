@@ -76,20 +76,10 @@ public class MessageFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
-        Friend friend = new Friend("Anush", "Hello", null);
+        Friend friend = new Friend("Friend1", "Hello", null);
         list.add(friend);
-        Friend friend2 = new Friend("Surav", "Where are you?", null);
+        Friend friend2 = new Friend("Friend2", "Where are you?", null);
         list.add(friend2);
-        Friend friend3 = new Friend("Soyuz", "Hi there", null);
-        list.add(friend3);
-        list.add(friend);
-        list.add(friend2);
-        list.add(friend);
-        list.add(friend3);
-        list.add(friend);
-        list.add(friend3);
-        list.add(friend);
-        list.add(friend3);
 
         return view;
     }

@@ -7,8 +7,8 @@
     </item>
     <item
         android:id="@+id/profile"
-        android:title="@string/profile"
-        android:icon="@drawable/profile">
+        android:title="@string/favourites"
+        android:icon="@drawable/heart">
     </item>
     <item
         android:id="@+id/message"
