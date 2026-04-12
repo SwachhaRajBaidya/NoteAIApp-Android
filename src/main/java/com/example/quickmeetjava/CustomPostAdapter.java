@@ -164,7 +164,8 @@ public class CustomPostAdapter extends RecyclerView.Adapter<CustomPostAdapter.My
                 if(itemList.get(position).getImage() == null && holder.imageView != null) {
                     ViewGroup parent = (ViewGroup) holder.imageView.getParent();
                     if (parent != null) {
-                        parent.removeView(holder.imageView);
+//                      parent.removeView(holder.imageView);
+                        holder.imageView.setVisibility(View.GONE);
                     }
                 }
 
