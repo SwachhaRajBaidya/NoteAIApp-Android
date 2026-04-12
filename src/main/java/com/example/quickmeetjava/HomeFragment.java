@@ -30,6 +30,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -86,6 +88,7 @@ public class HomeFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        Collections.sort(list, Comparator.comparing(MyItem::getHeading, String.CASE_INSENSITIVE_ORDER));
     }
 
     @Override
@@ -142,6 +145,7 @@ public class HomeFragment extends Fragment {
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Collections.sort(list, Comparator.comparing(MyItem::getHeading, String.CASE_INSENSITIVE_ORDER));
                 editTextSearch.setVisibility(View.VISIBLE);
             }
         });
@@ -183,11 +187,42 @@ public class HomeFragment extends Fragment {
 
         return view;
     }
-    void filter(String text){
+//    void filter(String text){
+//        List<MyItem> temp = new ArrayList<>();
+//        for(MyItem d : list){
+//            if(d.getHeading().toLowerCase().contains(text.toLowerCase())){
+//                temp.add(d);
+//            }
+//        }
+//        adapter.updateList(temp);
+//    }
+
+    void filter(String text) {
         List<MyItem> temp = new ArrayList<>();
-        for(MyItem d : list){
-            if(d.getHeading().toLowerCase().contains(text.toLowerCase())){
-                temp.add(d);
+        if (text.isEmpty()) {
+            temp.addAll(list); // Show all if no text
+        } else {
+            // Find insertion point
+            int index = Collections.binarySearch(list, new MyItem("", null, 0, "", "", text),
+                    Comparator.comparing(MyItem::getHeading, String.CASE_INSENSITIVE_ORDER));
+
+            int start = (index >= 0) ? index : ~index; // If not found, ~index is insertion point
+
+            // Scan forward from start
+            for (int i = start; i < list.size(); i++) {
+                if (list.get(i).getHeading().toLowerCase().startsWith(text.toLowerCase())) {
+                    temp.add(list.get(i));
+                } else if (list.get(i).getHeading().toLowerCase().compareTo(text.toLowerCase()) > 0) {
+                    break; // Stop if past alphabetical range
+                }
+            }
+            // Optionally scan backward if needed
+            for (int i = start - 1; i >= 0; i--) {
+                if (list.get(i).getHeading().toLowerCase().startsWith(text.toLowerCase())) {
+                    temp.add(0, list.get(i));
+                } else {
+                    break;
+                }
             }
         }
         adapter.updateList(temp);

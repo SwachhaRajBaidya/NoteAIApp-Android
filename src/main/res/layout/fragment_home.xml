@@ -68,7 +68,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/recyclerViewPosts">
+            android:id="@+id/recyclerViewPosts"
+            android:paddingBottom="90dp"
+            android:clipToPadding="false">
 
         </androidx.recyclerview.widget.RecyclerView>
 
