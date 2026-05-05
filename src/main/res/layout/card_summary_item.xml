@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/cardSummary"
+    app:cardElevation="4dp"
+    android:layout_marginBottom="12dp"
+    android:layout_marginHorizontal="8dp"
+    app:cardCornerRadius="12dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/gradient_card">
+
+        <!-- Header Section: Title + Date + Confidence Score -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingBottom="8dp">
+
+            <!-- AI Badge + Title -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="✨ AI Summary"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/textColor"
+                        android:background="@drawable/badge_background"
+                        android:paddingHorizontal="6dp"
+                        android:paddingVertical="2dp" />
+
+                    <!-- Confidence Score -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginStart="8dp">
+
+                        <ImageView
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
+                            android:src="@drawable/ic_launcher_foreground"
+                            android:contentDescription="Confidence"
+                            android:alpha="0.6" />
+
+                        <TextView
+                            android:id="@+id/textConfidence"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="85%"
+                            android:textSize="10sp"
+                            android:textColor="@color/textColor"
+                            android:alpha="0.7"
+                            android:layout_marginStart="2dp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textSummaryTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Note Title"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/textColor"
+                    android:layout_marginTop="4dp"
+                    android:maxLines="1"
+                    android:ellipsize="end" />
+
+                <TextView
+                    android:id="@+id/textSummaryDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2 hours ago"
+                    android:textSize="11sp"
+                    android:textColor="@color/textColor"
+                    android:alpha="0.6"
+                    android:layout_marginTop="2dp" />
+            </LinearLayout>
+
+            <!-- Action Buttons (Vertical) -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:layout_marginStart="8dp">
+
+                <ImageButton
+                    android:id="@+id/btnCopySummary"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/content_copy"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="Copy summary"
+                    android:scaleType="centerInside" />
+
+                <ImageButton
+                    android:id="@+id/btnMore"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/menu"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="More options"
+                    android:scaleType="centerInside"
+                    android:layout_marginTop="4dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/textColor"
+            android:alpha="0.1"
+            android:layout_marginVertical="8dp" />
+
+        <!-- Summary Text with Animation -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textSummaryContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Loading summary..."
+                android:textSize="14sp"
+                android:textColor="@color/textColor"
+                android:lineSpacingMultiplier="1.4"
+                android:justificationMode="inter_word"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Loading Indicator -->
+            <ProgressBar
+                android:id="@+id/progressAnimation"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:progress="0"
+                android:max="100"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <!-- Keywords Section -->
+        <LinearLayout
+            android:id="@+id/keywordsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Key Points"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="@color/textColor"
+                android:alpha="0.7" />
+
+            <!-- Keywords as horizontal scrollable chips -->
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none"
+                android:layout_marginTop="4dp">
+
+                <LinearLayout
+                    android:id="@+id/keywordsLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" />
+            </HorizontalScrollView>
+        </LinearLayout>
+
+        <!-- Footer: Stats -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingTop="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/white"
+            android:alpha="0.05">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Compression"
+                android:textSize="10sp"
+                android:textColor="@color/textColor"
+                android:alpha="0.6" />
+
+            <TextView
+                android:id="@+id/textCompressionRatio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3.2x"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="@color/textColor" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="12dp"
+                android:background="@color/textColor"
+                android:alpha="0.1"
+                android:layout_marginHorizontal="12dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Reading Time"
+                android:textSize="10sp"
+                android:textColor="@color/textColor"
+                android:alpha="0.6" />
+
+            <TextView
+                android:id="@+id/textReadingTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2 min"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="@color/textColor" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

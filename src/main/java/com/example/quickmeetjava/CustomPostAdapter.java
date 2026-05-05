@@ -1,8 +1,11 @@
 package com.example.quickmeetjava;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,15 +18,20 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quickmeetjava.R;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
 
@@ -40,6 +48,7 @@ public class CustomPostAdapter extends RecyclerView.Adapter<CustomPostAdapter.My
         public ImageButton btnPostLike;
         public ImageView imageView;
         public ImageButton btnDelete;
+        public ImageButton btnMoreOptions;
         public TextView textViewHeading;
 
         public MyViewHolder(View v) {
@@ -51,6 +60,7 @@ public class CustomPostAdapter extends RecyclerView.Adapter<CustomPostAdapter.My
             btnPostLike = v.findViewById(R.id.btnPostLike);
             btnEdit = v.findViewById(R.id.btnEdit);
             btnDelete = v.findViewById(R.id.btnDelete);
+            btnMoreOptions = v.findViewById(R.id.btnMoreOptions);
             textViewHeading = v.findViewById(R.id.post_heading);
         }
     }
@@ -113,6 +123,17 @@ public class CustomPostAdapter extends RecyclerView.Adapter<CustomPostAdapter.My
                     return;
                 }
                 showAlertEdit(itemList.get(positions).getRandomId(), itemList.get(positions).getText());
+            }
+        });
+
+        holder.btnMoreOptions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int positions = holder.getAbsoluteAdapterPosition();
+                if (positions == RecyclerView.NO_POSITION) {
+                    return;
+                }
+                showNoteOptionsMenu(v, itemList.get(positions));
             }
         });
 
@@ -214,6 +235,68 @@ public class CustomPostAdapter extends RecyclerView.Adapter<CustomPostAdapter.My
 
 
     }
+
+    private void copyNoteToClipboard(String noteText) {
+        if (noteText == null) {
+            noteText = "";
+        }
+        ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        if (clipboard != null) {
+            ClipData clip = ClipData.newPlainText("Note", noteText);
+            clipboard.setPrimaryClip(clip);
+            Toast.makeText(context, "Note copied to clipboard", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void shareNoteAsTxt(MyItem item) {
+        if (item == null) {
+            return;
+        }
+
+        String noteText = "Title: " + item.getHeading() + "\n" +
+                "Date: " + item.getDate() + "\n\n" +
+                (item.getText() != null ? item.getText() : "");
+        File cacheFile = new File(context.getCacheDir(), "note_" + item.getRandomId() + ".txt");
+
+        try (FileOutputStream fos = new FileOutputStream(cacheFile)) {
+            fos.write(noteText.getBytes("UTF-8"));
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(context, "Unable to prepare note for sharing", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Uri fileUri = FileProvider.getUriForFile(context,
+                context.getPackageName() + ".fileprovider",
+                cacheFile);
+
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_STREAM, fileUri);
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, item.getHeading());
+        shareIntent.putExtra(Intent.EXTRA_TEXT, noteText);
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        context.startActivity(Intent.createChooser(shareIntent, "Share note as TXT"));
+    }
+
+    private void showNoteOptionsMenu(View anchor, MyItem item) {
+        PopupMenu popupMenu = new PopupMenu(context, anchor);
+        popupMenu.getMenuInflater().inflate(R.menu.menu_note_item, popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(menuItem -> {
+            int itemId = menuItem.getItemId();
+            if (itemId == R.id.action_share_note) {
+                shareNoteAsTxt(item);
+                return true;
+            } else if (itemId == R.id.action_copy_note) {
+                copyNoteToClipboard(item.getText());
+                return true;
+            }
+            return false;
+        });
+        popupMenu.show();
+    }
+
     public boolean checkImageExists(Context context, Uri uri){
         ContentResolver cr = context.getContentResolver();
         String[] projection = {MediaStore.Images.Media.DATA};

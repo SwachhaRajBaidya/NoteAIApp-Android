@@ -97,7 +97,9 @@ public class MainActivity extends AppCompatActivity {
                     replaceFragment(homeFragment);
                 }else if(item.getItemId() == R.id.profile){
                     profileFragment.listFavourite.clear();
-                    loadPostsFavourite(profileFragment.adapterFavourite, profileFragment.listFavourite, homeFragment.list);
+                    if (profileFragment.adapterFavourite != null) {
+                        loadPostsFavourite(profileFragment.adapterFavourite, profileFragment.listFavourite, homeFragment.list);
+                    }
                     replaceFragment(profileFragment);
                 }else if(item.getItemId() == R.id.message){
                     profileFragment.listFavourite.clear();
@@ -125,8 +127,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mySqliteHelper = new MySqliteHelper(MainActivity.this);
-        loadPosts(homeFragment.adapter, homeFragment.list);
-        loadPostsFavourite(profileFragment.adapterFavourite, profileFragment.listFavourite, homeFragment.list);
+        // Note: loadPosts is now called in HomeFragment.onViewCreated after the adapter is initialized
+        if (profileFragment.adapterFavourite != null) {
+            loadPostsFavourite(profileFragment.adapterFavourite, profileFragment.listFavourite, homeFragment.list);
+        }
     }
     private void replaceFragment(Fragment fragment){
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -222,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
         rv.scrollToPosition(list.size()-1);
     }
 
-    private void loadPosts(CustomPostAdapter customAdapter, List<MyItem> list){
+    public void loadPosts(CustomPostAdapter customAdapter, List<MyItem> list){
         Cursor cursor =  mySqliteHelper.selectPost();
 
         while (cursor.moveToNext()){

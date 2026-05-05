@@ -2,5 +2,26 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="colorPrimary">#0D1F44</color>
+    <color name="colorPrimaryVariant">#102A57</color>
+    <color name="colorOnPrimary">#FFFFFFFF</color>
+    <color name="colorSecondary">#24B2FF</color>
+    <color name="colorOnSecondary">#FFFFFFFF</color>
+    <color name="colorSurface">#F3F7FF</color>
+    <color name="colorBackground">#F7F9FF</color>
+    <color name="colorSurfaceVariant">#E7EBFF</color>
+    <color name="textPrimary">#152A4D</color>
+    <color name="textSecondary">#5E7290</color>
+    <color name="cardBackground">#FFFFFFFF</color>
+    <color name="surfaceTint">#D1E4FF</color>
+    <color name="success">#26C281</color>
+    <color name="errorColor">#E74C3C</color>
+    <color name="startColor">#E8F4FF</color>
+    <color name="centerColor">#F4FAFF</color>
+    <color name="endColor">#F7F9FF</color>
+    <color name="startColorCard">#FFFFFF</color>
+    <color name="centerColorCard">#F8F9FF</color>
+    <color name="endColorCard">#E8F4FF</color>
+    <color name="textColor">#152A4D</color>
 
 </resources>

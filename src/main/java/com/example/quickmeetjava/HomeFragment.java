@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -107,21 +108,6 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-
-                if (editTextSearch.getText().toString().isEmpty()){
-                    if (newState == RecyclerView.SCROLL_STATE_DRAGGING || newState == RecyclerView.SCROLL_STATE_SETTLING) {
-                        editTextSearch.setVisibility(View.INVISIBLE);
-                        editTextSearch.setText(null);
-                        adapter.updateList(list);
-                    }
-                }
-            }
-        });
-
         recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
             @Override
             public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
@@ -134,6 +120,84 @@ public class HomeFragment extends Fragment {
             @Override
             public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
 
+            }
+        });
+
+        // Add scroll listener to show bottom nav when scrolled to top or when scrolling after items removed
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                // Hide search input when scrolling starts (if search is empty)
+                if (editTextSearch.getText().toString().isEmpty()){
+                    if (newState == RecyclerView.SCROLL_STATE_DRAGGING || newState == RecyclerView.SCROLL_STATE_SETTLING) {
+                        editTextSearch.setVisibility(View.INVISIBLE);
+                        editTextSearch.setText(null);
+                        if (adapter != null) {
+                            adapter.updateList(list);
+                        }
+                    }
+                }
+
+                // Show bottom nav whenever user starts dragging/scrolling
+                if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                    if (getActivity() instanceof MainActivity) {
+                        MainActivity mainActivity = (MainActivity) getActivity();
+                        com.google.android.material.bottomappbar.BottomAppBar bottomAppBar =
+                            mainActivity.findViewById(R.id.bottomAppBar);
+
+                        if (bottomAppBar != null && bottomAppBar.getVisibility() != View.VISIBLE) {
+                            bottomAppBar.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                // Show bottom nav when scrolled to the very top
+                if (!recyclerView.canScrollVertically(-1)) {
+                    if (getActivity() instanceof MainActivity) {
+                        MainActivity mainActivity = (MainActivity) getActivity();
+                        com.google.android.material.bottomappbar.BottomAppBar bottomAppBar =
+                            mainActivity.findViewById(R.id.bottomAppBar);
+
+                        if (bottomAppBar != null && bottomAppBar.getVisibility() != View.VISIBLE) {
+                            bottomAppBar.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+            }
+        });
+
+        // Add touch listener to show bottom nav on any touch when it's hidden
+        recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+                // Show bottom nav on any touch event when it's not visible
+                if (getActivity() instanceof MainActivity) {
+                    MainActivity mainActivity = (MainActivity) getActivity();
+                    com.google.android.material.bottomappbar.BottomAppBar bottomAppBar =
+                        mainActivity.findViewById(R.id.bottomAppBar);
+
+                    if (bottomAppBar != null && bottomAppBar.getVisibility() != View.VISIBLE) {
+                        bottomAppBar.setVisibility(View.VISIBLE);
+                    }
+                }
+                return false; // Don't consume the touch event
+            }
+
+            @Override
+            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+                // Not needed since we're not consuming the event
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+                // Not needed
             }
         });
 
@@ -187,6 +251,19 @@ public class HomeFragment extends Fragment {
 
         return view;
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // Load posts after view is created
+        if (getActivity() instanceof MainActivity) {
+            MainActivity mainActivity = (MainActivity) getActivity();
+            if (adapter != null && list.isEmpty()) {
+                mainActivity.loadPosts(adapter, list);
+            }
+        }
+    }
 //    void filter(String text){
 //        List<MyItem> temp = new ArrayList<>();
 //        for(MyItem d : list){
@@ -226,6 +303,11 @@ public class HomeFragment extends Fragment {
             }
         }
         adapter.updateList(temp);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
 }

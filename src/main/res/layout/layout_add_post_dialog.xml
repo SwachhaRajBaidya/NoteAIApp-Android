@@ -23,7 +23,7 @@
         android:textColor="@color/black"
         android:layout_margin="16dp"
         android:hint="@string/hintTitle"
-        android:maxLength="10">
+        android:maxLength="30">
 
     </EditText>
     <EditText

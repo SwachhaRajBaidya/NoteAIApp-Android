@@ -43,6 +43,7 @@ public class MyItem {
         this.text = text;
     }
     public void setHeart(int heart) { this.heart = heart; }
+    public int getHeart() { return heart; }
     public String getRandomId() { return randomId; }
     public void setRandomId(String randomId) { this.randomId = randomId; }
     public String getHeading() { return heading; }

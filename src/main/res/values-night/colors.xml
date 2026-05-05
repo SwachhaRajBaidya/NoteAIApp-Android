@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#0B1222</color>
+    <color name="colorPrimaryVariant">#08101A</color>
+    <color name="colorOnPrimary">#F1F6FF</color>
+    <color name="colorSecondary">#4DB8FF</color>
+    <color name="colorOnSecondary">#0B1222</color>
+    <color name="colorSurface">#111A2B</color>
+    <color name="colorBackground">#07101F</color>
+    <color name="colorSurfaceVariant">#1F2B42</color>
+    <color name="textPrimary">#E8EFFA</color>
+    <color name="textSecondary">#99B3D4</color>
+    <color name="cardBackground">#14213B</color>
+    <color name="surfaceTint">#2F4F88</color>
+    <color name="success">#54D48B</color>
+    <color name="errorColor">#FF6B7A</color>
+    <color name="startColor">#07101F</color>
+    <color name="centerColor">#121D33</color>
+    <color name="endColor">#1D324F</color>
+    <color name="startColorCard">#17283F</color>
+    <color name="centerColorCard">#243F62</color>
+    <color name="endColorCard">#1F355C</color>
+    <color name="textColor">#E8EFFA</color>
+</resources>
