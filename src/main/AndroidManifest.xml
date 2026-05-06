@@ -25,6 +25,10 @@
                 android:resource="@xml/file_paths" />
         </provider>
         <activity
+            android:name=".AddEditNoteActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Quickmeetjava" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

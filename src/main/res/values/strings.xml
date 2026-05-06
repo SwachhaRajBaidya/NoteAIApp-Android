@@ -23,6 +23,8 @@
     <string name="heading">Title</string>
     <string name="hintTitle">Note title</string>
     <string name="note_hint">Type your note here...</string>
+    <string name="add_note_header">Create a new note</string>
+    <string name="edit_note_header">Edit note</string>
     <string name="empty_favorites">No favorite notes yet. Tap the heart icon to save a note here.</string>
     <string name="empty_notes">No notes yet. Tap + to add your first note.</string>
 </resources>

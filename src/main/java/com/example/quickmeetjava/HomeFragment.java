@@ -264,6 +264,23 @@ public class HomeFragment extends Fragment {
             }
         }
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refreshPosts();
+    }
+
+    public void refreshPosts() {
+        if (list != null && adapter != null) {
+            list.clear();
+            if (getActivity() instanceof MainActivity) {
+                MainActivity mainActivity = (MainActivity) getActivity();
+                mainActivity.loadPosts(adapter, list);
+                adapter.notifyDataSetChanged();
+            }
+        }
+    }
 //    void filter(String text){
 //        List<MyItem> temp = new ArrayList<>();
 //        for(MyItem d : list){
@@ -303,11 +320,6 @@ public class HomeFragment extends Fragment {
             }
         }
         adapter.updateList(temp);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
     }
 
 }

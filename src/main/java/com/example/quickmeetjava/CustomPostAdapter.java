@@ -15,7 +15,6 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
@@ -122,7 +121,18 @@ public class CustomPostAdapter extends RecyclerView.Adapter<CustomPostAdapter.My
                 if(positions == RecyclerView.NO_POSITION){
                     return;
                 }
-                showAlertEdit(itemList.get(positions).getRandomId(), itemList.get(positions).getText());
+                MyItem item = itemList.get(positions);
+                Intent intent = new Intent(context, AddEditNoteActivity.class);
+                intent.putExtra(AddEditNoteActivity.EXTRA_MODE, "EDIT");
+                intent.putExtra(AddEditNoteActivity.EXTRA_RANDOM_ID, item.getRandomId());
+                intent.putExtra(AddEditNoteActivity.EXTRA_TITLE, item.getHeading());
+                intent.putExtra(AddEditNoteActivity.EXTRA_TEXT, item.getText());
+                intent.putExtra(AddEditNoteActivity.EXTRA_HEART, item.getHeart());
+                intent.putExtra(AddEditNoteActivity.EXTRA_DATE, item.getDate());
+                if (item.getImage() != null) {
+                    intent.putExtra(AddEditNoteActivity.EXTRA_IMAGE_URI, item.getImage().toString());
+                }
+                context.startActivity(intent);
             }
         });
 
@@ -311,42 +321,6 @@ public class CustomPostAdapter extends RecyclerView.Adapter<CustomPostAdapter.My
             cursor.close();
         }
         return false;
-    }
-
-    private void showAlertEdit(String pos, String message){
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        AlertDialog alertDialog = builder.create();
-        builder.setTitle("Edit");
-        builder.setMessage("Edit the note");
-
-        EditText editText = new EditText(context);
-        editText.setText(message);
-        builder.setView(editText);
-
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                for(int i = 0; i < itemList.size(); i++) {
-                    String randomId = itemList.get(i).getRandomId();
-                    if (randomId.equals(pos)) {
-                        String text = editText.getText().toString();
-                        itemList.get(i).setText(text);
-                        mySqliteHelper.updatePost(pos, text);
-                        notifyDataSetChanged();
-                        alertDialog.dismiss();
-                    }
-                }
-            }
-        });
-
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                alertDialog.cancel();
-            }
-        });
-
-        builder.show();
     }
 
     private void showAlertDelete(String pos){

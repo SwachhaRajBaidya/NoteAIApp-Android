@@ -86,6 +86,18 @@ public class MySqliteHelper extends SQLiteOpenHelper {
         sqLiteDatabase.update("posts", contentValues, "id=?", new String[]{String.valueOf(id)});
     }
 
+    public void updatePost(String randomId,String date, String post_text, String image, int heart, String title){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("date", date);
+        contentValues.put("post_text", post_text);
+        contentValues.put("image", image);
+        contentValues.put("heart", heart);
+        contentValues.put("title", title);
+
+        sqLiteDatabase.update("posts", contentValues, "randomId=?", new String[]{randomId});
+    }
+
     public void updateHeart(String randomId, int heart){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
