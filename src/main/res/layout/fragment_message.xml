@@ -106,49 +106,4 @@
             android:layout_marginTop="8dp" />
     </LinearLayout>
 
-    <!-- Bottom input area -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="12dp"
-        android:gravity="center_vertical"
-        android:background="@drawable/gradient_card"
-        android:elevation="8dp">
-
-        <EditText
-            android:id="@+id/editTextSearch"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            android:paddingHorizontal="12dp"
-            android:hint="Search summaries..."
-            android:background="@drawable/rounded_edittext_bg"
-            android:textSize="14sp"
-            android:inputType="text"
-            android:textColor="@color/textColor"
-            android:textColorHint="@color/textColor"
-            android:alpha="0.7" />
-
-        <ImageButton
-            android:id="@+id/btnRefresh"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/send"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/app_name"
-            android:layout_marginStart="8dp"
-            android:scaleType="centerInside" />
-
-        <ImageButton
-            android:id="@+id/btnSettings"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/settings"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/app_name"
-            android:layout_marginStart="4dp"
-            android:scaleType="centerInside" />
-    </LinearLayout>
-
 </LinearLayout>

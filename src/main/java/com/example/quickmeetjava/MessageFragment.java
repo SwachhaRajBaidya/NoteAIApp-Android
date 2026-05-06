@@ -16,8 +16,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.Toast;
@@ -47,9 +45,6 @@ public class MessageFragment extends Fragment implements SummaryAdapter.OnSummar
     private List<SummaryItem> summaryList = new ArrayList<>();
     private MySqliteHelper mySqliteHelper;
     private AITextSummarizer summarizer;
-    private EditText editTextSearch;
-    private ImageButton btnRefresh;
-    private ImageButton btnSettings;
     private LinearLayout emptyStateView;
     private ExecutorService backgroundExecutor;
     
@@ -86,9 +81,6 @@ public class MessageFragment extends Fragment implements SummaryAdapter.OnSummar
     
     private void initializeViews(View view) {
         recyclerViewSummaries = view.findViewById(R.id.recyclerViewSummaries);
-        editTextSearch = view.findViewById(R.id.editTextSearch);
-        btnRefresh = view.findViewById(R.id.btnRefresh);
-        btnSettings = view.findViewById(R.id.btnSettings);
         emptyStateView = view.findViewById(R.id.emptyStateView);
     }
     
@@ -170,30 +162,6 @@ public class MessageFragment extends Fragment implements SummaryAdapter.OnSummar
     }
     
     private void setupEventListeners() {
-        // Search functionality
-        editTextSearch.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                filterSummaries(s.toString());
-            }
-            
-            @Override
-            public void afterTextChanged(Editable s) {}
-        });
-        
-        // Refresh button
-        btnRefresh.setOnClickListener(v -> {
-            showToast("Regenerating summaries...");
-            regenerateAllSummaries();
-        });
-        
-        // Settings button
-        btnSettings.setOnClickListener(v -> {
-            showSummarySettingsMenu(v);
-        });
     }
     
     /**

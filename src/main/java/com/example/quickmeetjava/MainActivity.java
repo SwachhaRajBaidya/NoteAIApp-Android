@@ -97,10 +97,10 @@ public class MainActivity extends AppCompatActivity {
                     replaceFragment(homeFragment);
                 }else if(item.getItemId() == R.id.profile){
                     profileFragment.listFavourite.clear();
+                    replaceFragment(profileFragment);
                     if (profileFragment.adapterFavourite != null) {
                         loadPostsFavourite(profileFragment.adapterFavourite, profileFragment.listFavourite, homeFragment.list);
                     }
-                    replaceFragment(profileFragment);
                 }else if(item.getItemId() == R.id.message){
                     profileFragment.listFavourite.clear();
                     replaceFragment(new MessageFragment());
@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout, fragment);
-        fragmentTransaction.commit();
+        fragmentTransaction.commitNow();
     }
 
     private void showPostAddDialog(){

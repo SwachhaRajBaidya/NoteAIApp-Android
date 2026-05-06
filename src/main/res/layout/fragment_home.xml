@@ -24,31 +24,54 @@
             android:contentDescription="Feed icon"
             android:scaleType="fitCenter" />
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="vertical"
             android:layout_marginStart="12dp">
 
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/feed"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="@color/textColor" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Quick access to your notes and AI summaries"
-                android:textSize="11sp"
-                android:textColor="@color/textColor"
-                android:alpha="0.7"
-                android:layout_marginTop="2dp" />
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/feed"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/textColor" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Quick access to your notes and AI summaries"
+                    android:textSize="11sp"
+                    android:textColor="@color/textColor"
+                    android:alpha="0.7"
+                    android:layout_marginTop="2dp" />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/editTextPost"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:background="@drawable/rounded_edittext_bg"
+                android:hint="@string/searchPost"
+                android:inputType="text"
+                android:gravity="center_vertical"
+                android:textColor="@android:color/black"
+                android:textColorHint="@android:color/darker_gray"
+                android:textSize="14sp"
+                android:drawablePadding="14dp"
+                android:drawableStart="@drawable/search"
+                android:visibility="gone" />
+        </FrameLayout>
 
         <ImageButton
             android:id="@+id/btnSearch"
@@ -73,26 +96,6 @@
             android:tint="@color/textColor"
             android:scaleType="centerInside" />
     </LinearLayout>
-
-    <EditText
-        android:id="@+id/editTextPost"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginTop="12dp"
-        android:paddingStart="18dp"
-        android:paddingEnd="18dp"
-        android:paddingTop="0dp"
-        android:paddingBottom="0dp"
-        android:background="@drawable/rounded_edittext_bg"
-        android:hint="@string/searchPost"
-        android:inputType="text"
-        android:gravity="center_vertical"
-        android:textColor="?android:attr/textColorPrimary"
-        android:textColorHint="?android:attr/textColorSecondary"
-        android:textSize="14sp"
-        android:drawablePadding="14dp"
-        android:drawableStart="@drawable/search"
-        android:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewPosts"
