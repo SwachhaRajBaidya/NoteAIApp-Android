@@ -4,3 +4,11 @@ Delete the installed app first then delete the apk then download new version and
 DO THIS AND APP WILL NEVER CRASH
 
 LATEST VERSION: v0.1.3-alpha(pro)
+
+
+
+
+
+
+
+Totally Unerlated: You are using latest version of love2d to compile code written for v0.9.2. Of course it will show errors. :D
