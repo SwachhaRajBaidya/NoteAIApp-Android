@@ -11,4 +11,4 @@ LATEST VERSION: v0.1.3-alpha(pro)
 
 
 
-Totally Unerlated: You are using latest version of love2d to compile code written for v0.9.2. Of course it will show errors. :D
+Totally Unrelated: You are using latest version of love2d to compile code written for love2d v0.9.2. Of course it will show errors. :D
