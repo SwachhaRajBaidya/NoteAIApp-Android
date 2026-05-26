@@ -3,9 +3,9 @@ Delete the installed app first then delete the apk then download new version and
 
 DO THIS AND APP WILL NEVER CRASH
 
-LATEST VERSION: v0.1.5-alpha(pro)
+LATEST VERSION: v0.1.6-alpha(pro)
 
-
+Uses Gemeni now
 
 
 
